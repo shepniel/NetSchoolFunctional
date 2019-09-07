@@ -147,6 +147,15 @@ namespace ProgFuncional
 
         public bool IsStraight(List<Card> pokerHand)
         {
+
+            var ranksInHand = pokerHand.Select(x => x.Rank).ToArray();// Get Array of Rank values in Hand
+
+            int[] listOfRankValues = Array.ConvertAll(ranksInHand, value => (int)value);//Array of int Values in Hand (rank)
+
+            var range = Enumerable.Range(listOfRankValues.Min(), 
+                listOfRankValues.Max() - listOfRankValues.Min() +1); 
+            //Generate an Enumerable Range with 5 elements (our hand)
+            return listOfRankValues.SequenceEqual(range); //Check for sequence, we now that range is in order.
             #region Imperative
             //Imperative Version
             //Should be in order since we are evaluating that
