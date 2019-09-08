@@ -129,6 +129,9 @@ namespace ProgFuncional
 
         public bool IsFlush(List<Card> pokerHand)
         {
+
+            return pokerHand.All(currentCard => currentCard.Suit == pokerHand.First().Suit);
+
             #region Imperativo
             //Imperative 
             //Check with a "pivot Card" if this card has a different
@@ -141,21 +144,13 @@ namespace ProgFuncional
             return true;
             #endregion
             #region Linq
-            return pokerHand.All(currentCard => currentCard.Suit == pokerHand.First().Suit);
             #endregion
         }
 
         public bool IsStraight(List<Card> pokerHand)
         {
-
-            var ranksInHand = pokerHand.Select(x => x.Rank).ToArray();// Get Array of Rank values in Hand
-
-            int[] listOfRankValues = Array.ConvertAll(ranksInHand, value => (int)value);//Array of int Values in Hand (rank)
-
-            var range = Enumerable.Range(listOfRankValues.Min(), 
-                listOfRankValues.Max() - listOfRankValues.Min() +1); 
-            //Generate an Enumerable Range with 5 elements (our hand)
-            return listOfRankValues.SequenceEqual(range); //Check for sequence, we now that range is in order.
+            return pokerHand.Zip(pokerHand.Skip(1), (l, r) => l.Rank + 1 == r.Rank).All(t => t);
+           
             #region Imperative
             //Imperative Version
             //Should be in order since we are evaluating that
